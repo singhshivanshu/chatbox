@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
 import Main from './Main';
-import Signup from './pages/Signup';
-
+import Header from './layout/Header';
 function App() {
   return (
     <div className="App">
+      <Header/>
       <Main/>
       
     </div>

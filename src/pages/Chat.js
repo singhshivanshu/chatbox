@@ -16,7 +16,6 @@ class Chat extends Component {
     this.myRef = React.createRef();
   }
   componentDidMount() {
-      console.log("aaaaaaa")
     this.setState({ readError: null, loadingChats: true });
     const chatArea = this.myRef.current;
     try {
@@ -69,7 +68,6 @@ class Chat extends Component {
   }
 
   render() {
-      console.log("mohi")
     return (
       <div>
         <div className="chat-area" ref={this.myRef}>
@@ -100,6 +98,7 @@ class Chat extends Component {
             );
           })}
         </div>
+
         <form onSubmit={this.handleSubmit} className="mx-3">
           <textarea
             className="form-control"
