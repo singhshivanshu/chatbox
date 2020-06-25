@@ -21,8 +21,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header() {
+function Header(props) {
   const classes = useStyles();
+
+  console.log(props)
 
   return (
     <div className={classes.root}>
@@ -31,10 +33,15 @@ function Header() {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-           <Link to="/">CHATBOX</Link> 
+          <Typography variant="h5" className={classes.title}>
+           <Link style={{textDecoration:"none", color: "white", letterSpacing: "3px"}} to="/">CHATBOX</Link> 
           </Typography>
-          <Button color="inherit" onClick={() => auth().signOut()}>Logout</Button>
+          {props.authentication ?
+          (<Button color="inherit" onClick={() => auth().signOut()}>Logout</Button>) : (
+           <Link to="/login" style={{textDecoration:"none", color: "white"}}>
+           <Button color="inherit">LogIn</Button> 
+           </Link> 
+          )}
         </Toolbar>
       </AppBar>
     </div>

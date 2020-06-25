@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { auth, db } from "../firebase/firebase";
+import Button from "@material-ui/core/Button";
 
 
 class Chat extends Component {
@@ -68,6 +69,7 @@ class Chat extends Component {
   }
 
   render() {
+    console.log(this.state.user)
     return (
       <div>
         <div className="chat-area" ref={this.myRef}>
@@ -106,12 +108,13 @@ class Chat extends Component {
             onChange={this.handleChange}
             value={this.state.content}
           ></textarea>
+          <br/>
           {this.state.error ? (
             <p className="text-danger">{this.state.error}</p>
           ) : null}
-          <button type="submit" className="btn btn-submit px-5 mt-4">
+          <Button type="submit" variant="contained" color="secondary">
             Send
-          </button>
+          </Button>
         </form>
         <div className="py-5 mx-3">
           Login in as:{" "}

@@ -7,13 +7,12 @@ import Chat from "./pages/Chat";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 
-function Main() {
+function Main(props) {
   const [authentication, setAuthentication] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     auth().onAuthStateChanged((user) => {
-        console.log(user)
       if (user) {
         setAuthentication(true);
         setLoading(false);
@@ -22,7 +21,12 @@ function Main() {
         setLoading(false);
       }
     });
+    console.log(authentication);
   }, []);
+
+  useEffect(() => {
+    props.callBackFromApp(authentication);
+  }, [authentication]);
 
   return (
     <div>
