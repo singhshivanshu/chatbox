@@ -79,3 +79,11 @@ code {
 #welcome-btn{
   margin: 5px !important;
 }
+
+input {
+  outline: none;
+}
+
+input[type="file"] {
+  display: none;
+}

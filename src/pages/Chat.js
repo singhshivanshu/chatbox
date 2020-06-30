@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Children } from "react";
 import { auth, db } from "../firebase/firebase";
 import Button from "@material-ui/core/Button";
-
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
 
 class Chat extends Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class Chat extends Component {
       readError: null,
       writeError: null,
       loadingChats: false,
+      file: [],
+      url: '',
     };
     this.myRef = React.createRef();
   }
@@ -35,6 +38,24 @@ class Chat extends Component {
     } catch (error) {
       this.setState({ readError: error.message, loadingChats: false });
     }
+
+    db.ref("chats")
+
+  }
+  
+
+  handleClick = () => {
+    document.getElementById("uploader").click()
+  }
+
+  onInputChange = (event) => {
+    this.setState({file: event.target.files[0]})
+  }
+
+  pushFileIntoDb = () => {
+    let storageRef = db.ref("chats/" + this.state.file.name)
+    storageRef.put(this.state.file)
+  
   }
 
   handleChange = (event) => {
@@ -49,10 +70,12 @@ class Chat extends Component {
     const chatArea = this.myRef.current;
     try {
       await db.ref("chats").push({
+        file :this.state.file,
         content: this.state.content,
         timestamp: Date.now(),
         uid: this.state.user.uid,
       });
+      await db.ref("chats/" + this.state.file.name).put(this.state.file)
       this.setState({ content: "" });
       chatArea.scrollBy(0, chatArea.scrollHeight);
     } catch (error) {
@@ -68,8 +91,11 @@ class Chat extends Component {
     return time;
   }
 
+
+
+
+
   render() {
-    console.log(this.state.user)
     return (
       <div>
         <div className="chat-area" ref={this.myRef}>
@@ -108,10 +134,15 @@ class Chat extends Component {
             onChange={this.handleChange}
             value={this.state.content}
           ></textarea>
-          <br/>
+          <br />
+
           {this.state.error ? (
             <p className="text-danger">{this.state.error}</p>
           ) : null}
+          <Fab size="small" color="primary" aria-label="add" onClick={this.handleClick}>
+            <AddIcon />
+          </Fab>
+          <input id="uploader" type="file" onChange={this.onInputChange}/>
           <Button type="submit" variant="contained" color="secondary">
             Send
           </Button>
